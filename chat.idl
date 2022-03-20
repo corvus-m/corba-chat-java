@@ -9,5 +9,9 @@ module chat {
 			raises (NameAlreadyUsed);
 		void unsubscribe(in string id) raises (UnknownID);
 		void comment(in string id, in string text) raises (UnknownID);
+
+
+		string showUsers( in string id);
+		//void removeUser (in string id)  raises (UnknownID);
 	};
 };

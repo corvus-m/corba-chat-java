@@ -50,6 +50,12 @@ public class Client implements Runnable {
 				while (true) {
 					String s = br.readLine();
 					if (s.equals("/quit")) break;
+
+					if(s.equals("/show") ){
+						chatserver.showUsers(id);
+						continue;
+					}
+
 					chatserver.comment(id, s);
 				}
 			} finally {

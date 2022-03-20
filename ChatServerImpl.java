@@ -42,5 +42,25 @@ public class ChatServerImpl extends chat.ChatServerPOA {
 			to.chatclient.update(from.nick, text);
 		}
 	}
+
+	
+//mostrar usuarios - Nueva
+
+	public void showUsers(String id, String text) throws chat.UnknownID {
+		
+	Client from = clients.get(id);
+		if (from == null) throw new chat.UnknownID();
+
+System.out.println("Show Users:");
+
+		// for(int i=0;i<nicks.size();i++){
+		// 	System.out.println(nicks.get(i));
+		// } 
+		
+		// for(int i=0; i< nicks.vector.size(); i++){
+		// 	System.out.println("Usuario" + i + ": "+ nicks.(i))
+    	// }
+
+	}
 }
 
