@@ -46,12 +46,24 @@ public class ChatServerImpl extends chat.ChatServerPOA {
 	
 //mostrar usuarios - Nueva
 
-	public void showUsers(String id, String text) throws chat.UnknownID {
+	public String showUsers(String id) {
 		
-	Client from = clients.get(id);
-		if (from == null) throw new chat.UnknownID();
+	// Client from = clients.get(id);
+	// 	if (from == null) throw new chat.UnknownID();
 
-System.out.println("Show Users:");
+
+	StringBuilder sb = new StringBuilder();
+
+		// loop through the names list and append all user names to a 'StringBuilder (sb)' object
+		for (String s : nicks) {
+			sb.append(s);
+			sb.append(" ");
+		}
+
+		// return all users
+		return sb.toString();
+
+// System.out.println("Show Users:");
 
 		// for(int i=0;i<nicks.size();i++){
 		// 	System.out.println(nicks.get(i));
@@ -62,5 +74,9 @@ System.out.println("Show Users:");
     	// }
 
 	}
+
+
+
+
 }
 

@@ -3,6 +3,7 @@ import java.io.*;
 import org.omg.CORBA.*;
 import org.omg.PortableServer.*;
 import org.omg.CosNaming.*;
+import java.util.regex.Pattern;
 
 public class Client implements Runnable {
 	public void run() {
@@ -52,7 +53,15 @@ public class Client implements Runnable {
 					if (s.equals("/quit")) break;
 
 					if(s.equals("/show") ){
-						chatserver.showUsers(id);
+						String returnValue = chatserver.showUsers(id);
+						String[] returnValueParts = returnValue.split(Pattern.quote(" "));
+
+                        System.out.println("Usuarios:\n");
+                        for (int i = 0; i < returnValueParts.length; i++) {
+                            System.out.println((i + 1) + ". " + returnValueParts[i] + "\n");
+                        }
+                        System.out.println("*******************\n");
+
 						continue;
 					}
 
