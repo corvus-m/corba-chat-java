@@ -12,6 +12,7 @@ module chat {
 
 
 		string showUsers( in string id);
-		//void removeUser (in string id)  raises (UnknownID);
+		string changeNick (in string nick, in string id) raises (NameAlreadyUsed);
+	
 	};
 };

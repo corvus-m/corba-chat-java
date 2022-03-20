@@ -24,32 +24,35 @@ public class Client implements Runnable {
 
 	public static void main(String args[]) {
 		try {
-			// initializing ORB
+			// Creacion e inicializacion del ORB (Object Request Broker)
 			orb = ORB.init(args,null);
-			// getting NameService
+			// Sacamos el service name y lo asignamos a la variable chatserver (que tendra nuestro servant)
 			org.omg.CORBA.Object obj = 
 			orb.resolve_initial_references("NameService");
 			NamingContextExt ncRef =
 			org.omg.CosNaming.NamingContextExtHelper.narrow(obj);
-
-			// resolving servant name 
 			obj = ncRef.resolve_str("chatserver_yzioaw");
 			ChatServer chatserver = ChatServerHelper.narrow(obj);
 
-			// creating servant
+			// iniciamos el servant
 			ChatClientImpl cc = new ChatClientImpl();
-			// connecting servant to ORB 
+
+			// conexion del esclavo al ORB 
 			ChatClient chatclient = cc._this(orb);
 			Thread t = new Thread(new Client());
 			String id = chatserver.subscribe("test", chatclient);
 			try {
 				System.out.println("Connected with ID " + id);
 				System.out.println("Type /quit to exit");
+				System.out.println("Type /show to show users in chat");
+				System.out.println("Type /change to change nick");
 				t.start();
 				BufferedReader br =
 					new BufferedReader(new InputStreamReader(System.in));
+				
+				//bucle principal del cliente
 				while (true) {
-					String s = br.readLine();
+					String s = br.readLine(); //casos de uso
 					if (s.equals("/quit")) break;
 
 					if(s.equals("/show") ){
@@ -65,9 +68,18 @@ public class Client implements Runnable {
 						continue;
 					}
 
+					if (s.equals("/change")) {
+						 System.out.print("New nick: ");
+						String newNick = br.readLine(); //casos de uso
+						String result = chatserver.changeNick(id, newNick);
+						System.out.println(result);
+						continue;
+					}
+
 					chatserver.comment(id, s);
 				}
-			} finally {
+
+			} finally { //fin de uso
 				System.out.print("Unsubscribing...");
 				chatserver.unsubscribe(id);
 				System.out.println(" done");

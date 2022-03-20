@@ -11,6 +11,13 @@ public class ChatServerImpl extends chat.ChatServerPOA {
 			this.chatclient = chatclient;
 			this.nick = nick;
 		}
+					//update remoto del nick del cliente
+			protected void updateNick(String nick){
+				this.nick = nick;
+			}
+			protected String getNick(){
+				return this.nick;
+			}
 	}
 
 	protected Map<String, Client> clients = new HashMap<String, Client>();
@@ -45,37 +52,36 @@ public class ChatServerImpl extends chat.ChatServerPOA {
 
 	
 //mostrar usuarios - Nueva
-
 	public String showUsers(String id) {
 		
-	// Client from = clients.get(id);
-	// 	if (from == null) throw new chat.UnknownID();
-
-
+	//Para juntar todos los nombres en una string
 	StringBuilder sb = new StringBuilder();
 
-		// loop through the names list and append all user names to a 'StringBuilder (sb)' object
 		for (String s : nicks) {
 			sb.append(s);
 			sb.append(" ");
 		}
 
-		// return all users
 		return sb.toString();
-
-// System.out.println("Show Users:");
-
-		// for(int i=0;i<nicks.size();i++){
-		// 	System.out.println(nicks.get(i));
-		// } 
-		
-		// for(int i=0; i< nicks.vector.size(); i++){
-		// 	System.out.println("Usuario" + i + ": "+ nicks.(i))
-    	// }
 
 	}
 
 
+	public String changeNick(String nick, String id)
+		throws chat.NameAlreadyUsed {
+		if (nicks.contains(nick)) throw new chat.NameAlreadyUsed();
+
+	//saco el elemento cliente asociado a este id
+		Client clientInHash =clients.get(id) ;
+		clientInHash.updateNick(nick);
+
+	//borramos anterior nick
+		String oldNick = clientInHash.getNick();
+		nicks.remove(oldNick);
+		nicks.add(nick);
+		String ret ="registrado como "+ nick;
+		return ret;
+	}
 
 
 }
